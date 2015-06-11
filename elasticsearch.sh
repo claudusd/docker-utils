@@ -18,7 +18,7 @@ function restartContainer() {
 case "$1" in
 
 "run" )
-    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_mysql 2> /dev/null)
+    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_elasticsearch 2> /dev/null)
     if [ $? -eq 1 ]; then
         run;
     fi
@@ -32,7 +32,7 @@ case "$1" in
     fi  
     ;;
 "stop" )
-    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_mysql 2> /dev/null)
+    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_elasticsearch 2> /dev/null)
     if [ $? -eq 1 ]; then
         echo "container not exist";
     fi

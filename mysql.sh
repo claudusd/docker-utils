@@ -1,11 +1,18 @@
 #/bin/bash
 
 function run() {
-    docker run -d -p 3306:3306 --name="default_mysql" -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.7
+    docker run -d -p 3306:3306 --name="default_mysql" -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.7 2> /dev/null
+    if [ $? -eq 1 ]; then
+        restartContainer;
+    fi
 }
 
 function stopContainer() {
     docker stop default_mysql;
+}
+
+function restartContainer() {
+    docker restart default_mysql;
 }
 
 case "$1" in
@@ -13,7 +20,7 @@ case "$1" in
 "run" )
     RUNNING=$(docker inspect --format="{{ .State.Running }}" default_mysql 2> /dev/null)
     if [ $? -eq 1 ]; then
-        run;       
+        run;
     fi
  
     if [ "$RUNNING" == "true" ]; then

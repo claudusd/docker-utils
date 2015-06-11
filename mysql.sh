@@ -43,6 +43,10 @@ EOM
     docker exec -t default_mysql mysql -u root -pitn -e "$VARIABLE" 2> /dev/null
 }
 
+function listUsers() {
+    docker exec -t default_mysql mysql -u root -pitn -e "select host, user from mysql.user;"     
+}
+
 case "$1" in
 
 "run" )
@@ -88,8 +92,22 @@ case "$1" in
         echo "do run";  
     fi
     ;;
+"list_users" )
+    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_mysql 2> /dev/null)
+    if [ $? -eq 1 ]; then
+        echo "do run";
+    fi
+
+    if [ "$RUNNING" == "true" ]; then
+        listUsers;
+    fi
+
+    if [ "$RUNNING" == "false" ]; then
+        echo "do run";
+    fi
+    ;;
 * )
-    echo "run, stop";
+    echo "run, stop, create_database, list_users";
     ;;
 esac
 #docker run -d -p 3306:3306 --name="default_mysql" mysql:5.5.7

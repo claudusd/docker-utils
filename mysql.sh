@@ -52,6 +52,10 @@ function execScript() {
     docker exec -i -t  default_mysql mysql -u root -pitn -e "$name" $1
 }
 
+function listDatabases() {
+    docker exec -t default_mysql mysql -u root -pitn -e "show databases;"
+}
+
 case "$1" in
 
 "run" )
@@ -125,8 +129,23 @@ case "$1" in
         echo "do run";
     fi
     ;;
+"list_databases" )
+    RUNNING=$(docker inspect --format="{{ .State.Running }}" default_mysql 2> /dev/null)
+    if [ $? -eq 1 ]; then
+        echo "do run";
+    fi
+
+    if [ "$RUNNING" == "true" ]; then
+       listDatabases;
+    fi
+
+    if [ "$RUNNING" == "false" ]; then
+        echo "do run";
+    fi
+    ;;
+ 
 * )
-    echo "run, stop, create_database, list_users, exec_script";
+    echo "run, stop, create_database, list_users, exec_script, list_databases";
     ;;
 esac
 #docker run -d -p 3306:3306 --name="default_mysql" mysql:5.5.7

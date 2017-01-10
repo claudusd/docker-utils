@@ -8,7 +8,7 @@ function run() {
 }
 
 function restartContainer() {
-    docker restart default_mysql;
+    docker restart default_smtp;
 }
 
 case "$1" in

@@ -1,7 +1,7 @@
 #/bin/bash
 
 function run() {
-    docker run -d -p 3306:3306 --name="default_mysql" -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.11 2> /dev/null
+    docker run -d -p 3306:3306 --name="default_mysql" -v config/mysql/etc/my.cnf: -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.11 2> /dev/null
     if [ $? -eq 1 ]; then
         restartContainer;
     fi

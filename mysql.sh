@@ -147,7 +147,7 @@ case "$1" in
     ;;
  
 * )
-    echo "run, stop, create_database, list_users, exec_script, list_databases";
+    printf "Commande available :\n\trun \n\tstop \n\tcreate_database \n\tlist_users \n\texec_script \n\tlist_databases\n";
     ;;
 esac
 #docker run -d -p 3306:3306 --name="default_mysql" mysql:5.5.7

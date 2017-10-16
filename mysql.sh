@@ -1,7 +1,9 @@
 #/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 function run() {
-    docker run -d -p 3306:3306 --name="default_mysql" -v data/mysql:/var/lib/mysql -v config/mysql/etc/my.cnf:/etc/mysql/conf.d/my.cnf -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.11 2> /dev/null
+    docker run -d -p 3306:3306 --name="default_mysql" -v $DIR/data-mysql:/var/lib/mysql -v $DIR/mysql-config:/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=itn mysql:5.7.11 2> /dev/null
     if [ $? -eq 1 ]; then
         restartContainer;
     fi

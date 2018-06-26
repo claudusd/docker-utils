@@ -1,7 +1,7 @@
 #/bin/bash
 
 function run() {
-    docker run -d -p 5672:5672 --name="default_rabbitmq" rabbitmq:3.6.6 2> /dev/null
+    docker run -d -p 5672:5672 -p 15672:15672 --name="default_rabbitmq" rabbitmq:3.6.16-management 2> /dev/null
     if [ $? -eq 1 ]; then
         restartContainer;       
     fi  
